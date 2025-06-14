@@ -1,3 +1,5 @@
+# .gitignore
+
 # Virtual Environment
 venv/
 .venv/
@@ -6,6 +8,7 @@ venv/
 *.log
 db.sqlite3
 db.sqlite3-journal
+static/
 
 # Python
 __pycache__/
@@ -16,7 +19,4 @@ __pycache__/
 
 # etc
 .DS_Store
-nohup.outstatic/
-
-# static
-static/
+nohup.out
