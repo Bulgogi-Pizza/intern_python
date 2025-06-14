@@ -28,7 +28,7 @@ class SignupView(APIView):
             summary='중복된 사용자 에러',
             description='이미 가입된 사용자 이름이나 닉네임으로 가입 시도 시 발생하는 에러입니다.',
             value={'error': {'code': 'USER_ALREADY_EXISTS',
-                             'message': '이미 가입된 사용자이거나 닉네임이 중복됩니다.'}},
+                             'message': '이미 가입된 사용자입니다.'}},
             response_only=True,
             status_codes=[409]
         )

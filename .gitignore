@@ -17,3 +17,6 @@ __pycache__/
 # etc
 .DS_Store
 nohup.outstatic/
+
+# static
+/static
