@@ -31,10 +31,8 @@
 - **Utilities**: Lombok (Java 프로젝트 해당) -> Python에서는 별도 라이브러리 미사용
 
 ## 🚀 API 명세
-> **[주의]** 아래 `{AWS_EC2_PUBLIC_IP}` 부분은 실제 배포된 EC2 인스턴스의 Public IP로 변경해야 합니다.
-
-- **Swagger UI 주소**: `http://{AWS_EC2_PUBLIC_IP}/swagger/`
-- **API Base URL**: `http://{AWS_EC2_PUBLIC_IP}`
+- **Swagger UI 주소**: `http://13.203.155.208/swagger/`
+- **API Base URL**: `http://13.203.155.208`
 
 ---
 
