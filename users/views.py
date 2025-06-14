@@ -19,23 +19,30 @@ class SignupView(APIView):
       summary="회원가입",
       description="새로운 사용자를 등록합니다.",
       request=UserSignupSerializer,
-      responses={
-        201: UserProfileSerializer,
-        409: OpenApiTypes.OBJECT,
-      },
+      responses={201: UserProfileSerializer, 409: OpenApiTypes.OBJECT},
       examples=[
+        OpenApiExample(
+            '요청 예시',
+            summary='회원가입 요청',
+            description='회원가입 시 요청하는 데이터의 예시입니다.',
+            value={
+              "username": "new_user",
+              "password": "password1234",
+              "nickname": "new_nickname"
+            },
+            request_only=True  # 이 예시는 요청(Request)에만 해당됨을 명시
+        ),
         OpenApiExample(
             '성공 예시',
             summary='회원가입 성공',
             description='회원가입 성공 시, 생성된 사용자의 정보를 반환합니다.',
-            value={'username': 'newuser', 'nickname': 'newnickname'},
-            response_only=True,
+            value={'username': 'new_user', 'nickname': 'new_nickname'},
+            response_only=True,  # 이 예시는 응답(Response)에만 해당됨을 명시
             status_codes=[201]
         ),
         OpenApiExample(
-            '실패 예시 (중복된 사용자)',
+            '실패 예시 (중복)',
             summary='중복된 사용자 에러',
-            description='이미 가입된 사용자 이름이나 닉네임으로 가입 시도 시 발생하는 에러입니다.',
             value={'error': {'code': 'USER_ALREADY_EXISTS',
                              'message': '이미 가입된 사용자입니다.'}},
             response_only=True,
@@ -71,26 +78,27 @@ class LoginView(APIView):
       summary="로그인",
       description="사용자 로그인을 하고 JWT를 발급합니다.",
       request=UserLoginSerializer,
-      responses={
-        200: OpenApiTypes.OBJECT,
-        400: OpenApiTypes.OBJECT,
-      },
+      responses={200: OpenApiTypes.OBJECT, 400: OpenApiTypes.OBJECT},
       examples=[
+        OpenApiExample(
+            '요청 예시',
+            summary='로그인 요청',
+            value={"username": "testuser", "password": "password1234"},
+            request_only=True
+        ),
         OpenApiExample(
             '성공 예시',
             summary='로그인 성공',
             value={
               'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjox...'},
-            response_only=True,
-            status_codes=[200]
+            response_only=True, status_codes=[200]
         ),
         OpenApiExample(
             '실패 예시',
             summary='로그인 실패',
             value={'error': {'code': 'INVALID_CREDENTIALS',
                              'message': '아이디 또는 비밀번호가 올바르지 않습니다.'}},
-            response_only=True,
-            status_codes=[400]
+            response_only=True, status_codes=[400]
         )
       ]
   )
@@ -112,7 +120,15 @@ class ProfileView(APIView):
       tags=["User API"],
       summary="프로필 조회",
       description="인증된 사용자의 프로필 정보(username, nickname)를 조회합니다. **(JWT 인증 필요)**",
-      responses={200: UserProfileSerializer}
+      responses={200: UserProfileSerializer},
+      examples=[
+        OpenApiExample(
+            '성공 예시',
+            summary='프로필 조회 성공',
+            value={'username': 'testuser', 'nickname': 'testnick'},
+            response_only=True, status_codes=[200]
+        )
+      ]
   )
   def get(self, request):
     user = request.user
@@ -127,25 +143,25 @@ class AdminRoleGrantView(APIView):
       tags=["Admin API"],
       summary="관리자 권한 부여",
       description="관리자가 특정 사용자에게 관리자 권한(is_staff=True)을 부여합니다. **(관리자 JWT 인증 필요)**",
-      responses={
-        200: UserProfileSerializer,
-        403: OpenApiTypes.OBJECT,
-        404: OpenApiTypes.OBJECT
-      },
+      responses={200: UserProfileSerializer, 403: OpenApiTypes.OBJECT,
+                 404: OpenApiTypes.OBJECT},
       examples=[
         OpenApiExample(
-            '권한 부여 성공 (200)',
+            '성공 예시',
+            summary='권한 부여 성공',
             value={'username': 'targetuser', 'nickname': 'targetnick'},
             response_only=True, status_codes=[200]
         ),
         OpenApiExample(
-            '접근 거부 (403)',
+            '실패 예시 (권한 없음)',
+            summary='접근 거부',
             value={'error': {'code': 'ACCESS_DENIED',
                              'message': '관리자 권한이 필요한 요청입니다. 접근 권한이 없습니다.'}},
             response_only=True, status_codes=[403]
         ),
         OpenApiExample(
-            '사용자 없음 (404)',
+            '실패 예시 (사용자 없음)',
+            summary='사용자 없음',
             value={'message': '해당 ID의 사용자를 찾을 수 없습니다.'},
             response_only=True, status_codes=[404]
         )
