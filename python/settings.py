@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-$*^4ddf04va@n@t9ebdl$av0v=@=fn51yqv8a&+12tfv)7rcyo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['13.203.155.208']
 
 
 # Application definition
@@ -128,8 +128,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     # Swagger(drf-spectacular)를 기본 스키마로 사용
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.views.SpectacularAPIView',
-
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.views.SpectacularAPIView',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'EXCEPTION_HANDLER': 'python.exceptions.custom_exception_handler',
 }
 
@@ -140,3 +140,5 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+STATIC_ROOT = BASE_DIR / "static"
